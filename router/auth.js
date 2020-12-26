@@ -55,4 +55,9 @@ router.post("/login", verified, async (req, res) => {
   return res.status(200).send({ body: "OK" });
 });
 
+router.post("/logout", async (req, res) => {
+  cookies.set("auth-token", { expires: Date.now() });
+  res.status(200).send();
+});
+
 module.exports = router;
