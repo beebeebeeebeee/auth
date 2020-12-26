@@ -38,10 +38,10 @@ router.post("/login", verified, async (req, res) => {
   const { error } = loginValidation(body);
   if (error) return res.status(400).send({ body: error.details[0].message });
 
-  if (!(await getOne(body.email)))
+  const user = JSON.parse(JSON.stringify(await getOne(body.email)))[0];
+  if (user.length == 0)
     return res.status(400).send({ body: "email incorrect!" });
 
-  const user = JSON.parse(JSON.stringify(await getOne(body.email)))[0];
   console.log(user);
   const validPass = await bcrypt.compare(body.password, user.password);
   if (!validPass) return res.status(400).send({ body: "password incorrect!" });
