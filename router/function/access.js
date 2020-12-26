@@ -1,11 +1,11 @@
 const database = require("../conf/connect_database");
 
-const getOne = async (email) => {
+const getOne = async (account) => {
   database.disconnect_handler();
 
   const results = await database.query(
-    "SELECT * FROM `users` WHERE `users`.`email` = ?",
-    [email]
+    "SELECT * FROM `users` WHERE `users`.`account` = ?",
+    [account]
   );
 
   return results;
@@ -15,8 +15,8 @@ const register = async(data)=>{
   database.disconnect_handler();
 
   const results = await database.query(
-    "INSERT INTO `users` (`id`, `name`, `email`, `password`) VALUES (?, ?, ?, ?)",
-    [data.id, data.name, data.email, data.password]
+    "INSERT INTO `users` (`id`, `name`, `account`, `password`) VALUES (?, ?, ?, ?)",
+    [data.id, data.name, data.account, data.password]
   );
 
   return results;
@@ -26,8 +26,8 @@ const login = async(data)=>{
   database.disconnect_handler();
 
   const results = await database.query(
-    "SELECT * FROM `users` WHERE `users`.`email` = ? AND `users`.`password` = ?",
-    [data.email, data.password]
+    "SELECT * FROM `users` WHERE `users`.`account` = ? AND `users`.`password` = ?",
+    [data.account, data.password]
   );
 
   return results;
