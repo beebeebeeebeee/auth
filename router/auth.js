@@ -38,8 +38,9 @@ router.post("/login", verified, async (req, res) => {
   const { error } = loginValidation(body);
   if (error) return res.status(400).send({ body: error.details[0].message });
 
+  const one = await getOne(body.email);
   const user = JSON.parse(JSON.stringify(await getOne(body.email)))[0];
-  if (user.length == 0)
+  if (one.length == 0)
     return res.status(400).send({ body: "email incorrect!" });
 
   console.log(user);
