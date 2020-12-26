@@ -42,6 +42,7 @@ router.post("/login", verified, async (req, res) => {
     return res.status(400).send({ body: "email incorrect!" });
 
   const user = JSON.parse(JSON.stringify(await getOne(body.email)))[0];
+  console.log(user);
   const validPass = await bcrypt.compare(body.password, user.password);
   if (!validPass) return res.status(400).send({ body: "password incorrect!" });
 
