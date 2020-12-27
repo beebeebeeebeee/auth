@@ -64,8 +64,12 @@ router.post("/logout", async (req, res) => {
 
 router.get("/data", async (req, res) => {
   const token = req.cookies["auth-token"];
-  const verified = jwt.verify(token, process.env.TOKEN_SECRET);
-  res.status(200).send(getData(verified.id));
+  try {
+    const verified = jwt.verify(token, process.env.TOKEN_SECRET);
+    res.status(200).send(getData(verified.id));
+  } catch (err) {
+    res.status(400).send();
+  }
 });
 
 module.exports = router;
