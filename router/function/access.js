@@ -22,15 +22,15 @@ const register = async(data)=>{
   return results;
 }
 
-const login = async(data)=>{
+const getData = async(id)=>{
   database.disconnect_handler();
 
   const results = await database.query(
-    "SELECT * FROM `users` WHERE `users`.`account` = ? AND `users`.`password` = ?",
-    [data.account, data.password]
+    "SELECT * FROM `users` WHERE `users`.`id` = ?",
+    [id]
   );
 
   return results;
 }
 
-module.exports = {getOne, register, login};
+module.exports = {getOne, register, getData};

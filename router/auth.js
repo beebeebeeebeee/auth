@@ -7,7 +7,7 @@ const {
   registerValidation,
   loginValidation,
 } = require("./function/validation");
-const { getOne, register, login } = require("./function/access");
+const { getOne, register, getData } = require("./function/access");
 const { json } = require("express");
 
 router.post("/register", async (req, res) => {
@@ -48,11 +48,6 @@ router.post("/login", verified, async (req, res) => {
   if (!validPass) return res.status(400).send({ body: "password incorrect!" });
 
   const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET);
-  res.cookie("user_name", user.name, {
-    expires: new Date(Date.now() + 3600000 * 24 * 30),
-    sameSite: "none",
-    secure: true,
-  });
   res.cookie("auth-token", token, {
     expires: new Date(Date.now() + 3600000 * 24 * 30),
     sameSite: "none",
@@ -63,9 +58,14 @@ router.post("/login", verified, async (req, res) => {
 });
 
 router.post("/logout", async (req, res) => {
-  res.cookie("username", "", { expires: new Date(0) });
   res.cookie("auth-token", "", { expires: new Date(0) });
   res.status(200).send();
+});
+
+router.get("/data", async (req, res) => {
+  const token = req.cookies["auth-token"];
+  const verified = jwt.verify(token, process.env.TOKEN_SECRET);
+  res.status(200).send(getData(verified.id));
 });
 
 module.exports = router;
