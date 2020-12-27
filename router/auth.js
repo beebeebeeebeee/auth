@@ -65,8 +65,7 @@ router.post("/data", async (req, res) => {
   const token = req.cookies["auth-token"];
   try {
     const verified = jwt.verify(token, process.env.TOKEN_SECRET);
-    console.log(getData(verified.id));
-    res.status(200).send(getData(verified.id));
+    res.status(200).send(await getData(verified.id));
   } catch (err) {
     console.log(err);
     res.status(400).send();
