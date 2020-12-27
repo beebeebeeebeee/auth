@@ -43,7 +43,6 @@ router.post("/login", verified, async (req, res) => {
   if (one.length == 0)
     return res.status(400).send({ body: "account incorrect!" });
 
-  console.log(user);
   const validPass = await bcrypt.compare(body.password, user.password);
   if (!validPass) return res.status(400).send({ body: "password incorrect!" });
 
@@ -68,6 +67,7 @@ router.get("/data", async (req, res) => {
     const verified = jwt.verify(token, process.env.TOKEN_SECRET);
     res.status(200).send(getData(verified.id));
   } catch (err) {
+    console.log(err);
     res.status(400).send();
   }
 });
