@@ -63,9 +63,11 @@ router.post("/logout", async (req, res) => {
 
 router.post("/data", async (req, res) => {
   const token = req.cookies["auth-token"];
+  console.log(token);
   try {
     const verified = jwt.verify(token, process.env.TOKEN_SECRET);
-    res.status(200).send(await getData(verified.id));
+    const user = await getData(verified.id);
+    res.status(200).send(user);
   } catch (err) {
     console.log(err);
     res.status(400).send();
