@@ -12,8 +12,8 @@ const registerValidation = (data) => {
 
 const loginValidation = (data) => {
   const schema = Joi.object({
-    account: Joi.string().min(6).max(20).required(),
-    password: Joi.string().min(6).max(40).required(),
+    account: Joi.string().required(),
+    password: Joi.string().required(),
   });
   return schema.validate(data);
 };
