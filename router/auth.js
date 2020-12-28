@@ -10,6 +10,8 @@ const {
 const { getOne, register, getData } = require("./function/access");
 const { json } = require("express");
 
+const COOKIE_TIME = 3600000 * 24 * 30 * 12;
+
 router.post("/register", async (req, res) => {
   let body = req.body;
   const { error } = registerValidation(body);
@@ -26,7 +28,7 @@ router.post("/register", async (req, res) => {
 
   const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET);
   res.cookie("auth-token", token, {
-    expires: new Date(Date.now() + 3600000 * 24 * 30),
+    expires: new Date(Date.now() + COOKIE_TIME),
   });
 
   return res.status(200).send("OK");
@@ -48,7 +50,7 @@ router.post("/login", verified, async (req, res) => {
 
   const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET);
   res.cookie("auth-token", token, {
-    expires: new Date(Date.now() + 3600000 * 24 * 30),
+    expires: new Date(Date.now() + COOKIE_TIME),
     sameSite: "none",
     secure: true,
   });

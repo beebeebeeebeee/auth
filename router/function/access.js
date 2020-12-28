@@ -15,8 +15,8 @@ const register = async(data)=>{
   database.disconnect_handler();
 
   const results = await database.query(
-    "INSERT INTO `users` (`id`, `name`, `account`, `password`) VALUES (?, ?, ?, ?)",
-    [data.id, data.name, data.account, data.password]
+    "INSERT INTO `users` (`id`, `name`, `account`, `password`, `gender`) VALUES (?, ?, ?, ?, ?)",
+    [data.id, data.name, data.account, data.password, data.gender]
   );
 
   return results;
